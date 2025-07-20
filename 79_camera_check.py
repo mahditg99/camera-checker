@@ -164,8 +164,12 @@ class Worker(QThread):
                 connect=False
                 # print(time.time() ,transit_time ,abs(time.time()-transit_time))
                 txt=f'{txt} Disconnected '
-                response = ping(ip, count=4, timeout=.5,verbose=False)
-                res = any(r.success for r in response)
+                try:
+                    response = ping(ip, count=4, timeout=.5,verbose=False)
+
+                    res = any(r.success for r in response)
+                except Exception as e:
+                    res = False
                 if res:
                     successful_rtts = [round(r.time_elapsed,2 )for r in response if r.success]
                     # print(response)
