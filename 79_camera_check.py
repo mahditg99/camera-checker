@@ -9,6 +9,18 @@ import sys
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QVBoxLayout
 
+import jdatetime
+
+def timestamp_to_shamsi(timestamp):
+    # Convert the timestamp to a Gregorian datetime object
+    gregorian_date = dt.fromtimestamp(timestamp)
+    
+    # Convert the Gregorian date to a Shamsi (Jalali) date
+    shamsi_date = jdatetime.datetime.fromgregorian(datetime=gregorian_date)
+    
+    # Return the Shamsi date as a formatted string
+    return shamsi_date.strftime("%Y-%m-%d %H:%M:%S")
+
 
 
 # dt.ti
@@ -171,7 +183,8 @@ class Worker(QThread):
                     txt=f' {txt} has No image'
 
             date= result['name'].split('_')[2:]
-            txt=f'{txt} -- last data recieved at {date[0]}_{date[1]}\n{'-'*60}\n'
+            
+            txt=f'{txt} -- last data recieved at {timestamp_to_shamsi(transit_time)}\n{'-'*60}\n'
             # txt = f'<p style="line-height: 0.5;">' \
             # f'<font color="green">{txt}</font></p>'
             
